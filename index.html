@@ -1,0 +1,47 @@
+<! DOCTYPE html>
+<html lang="pl">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Pomodore app</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="styles/main.css" crossorigin="anonymous">
+    <link rel="stylesheet" href="styles/font-awesome.min.css">
+
+
+</head>
+
+<body>
+    <audio id="alarm__sound" src="Metronome.wav"></audio>
+    <!-- Add your site or app content here -->
+    <div class="main">
+        <div class="top">
+            <button class="timer__button">25min</button>
+            <form>
+                <input type="text" class="input__description" placeholder="Co zamierzasz robić?">
+                <input type="text" class="input__time" placeholder="W czasie..">
+            </form>
+        </div>
+        <div id="container" class="timer">
+            <button class="end__button"><i class="fa fa-4x fa-stop-circle-o" aria-hidden="true"></i></button>
+            <p class="timer__subject"></p>
+            <h1 class="time__left">00:00</h1>
+            <button class="pause__button"><i class="fa fa-3x fa-pause" aria-hidden="true"></i></button>
+        </div>
+        <div class="counter">
+            <p class="counter__display"></p>
+        </div>
+    </div>
+    <!-- build:js scripts/main.min.js -->
+    <script src="scripts/progressbar.js"></script>
+    <script src="scripts/main.js"></script>
+    <!-- endbuild -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+    <!-- Built with love using Web Starter Kit -->
+</body>
+</html>

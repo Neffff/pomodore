@@ -1,0 +1,91 @@
+html,
+body {
+    height: 100%;
+    background-color: #95E1D3;
+}
+
+.main {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    flex-direction: column;
+}
+
+.top {
+    margin: 100px;
+}
+
+.timer {
+
+    width: 30rem;
+    height: 30rem;
+}
+
+.timer__subject {
+    color: #FCE38A;
+    text-align: center;
+    font-size: 50px;
+    position: absolute;
+    left: 45%;
+}
+
+.timer button {
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.timer button i {
+    color: #FCE38A;
+
+}
+
+.end__button {
+    float: right;
+}
+
+.pause__button {
+    bottom: 250px;
+    left: 48%;
+    position: absolute;
+}
+
+.time__left {
+    font-size: 70px;
+    color: #FCE38A;
+    bottom: 350px;
+    left: 45%;
+    position: absolute;
+}
+
+/*
+.timer {
+    width: 30rem;
+    height: 30rem;
+    border: 20px solid white;
+    border-radius: 50%;
+    margin: 50px auto;
+    position: relative;
+    padding: 2rem;
+    box-shadow: 0 0 0 4px rgba(0, 0, 0, 0.1),
+    inset 0 0 0 3px #EFEFEF,
+    inset 0 0 10px black,
+    0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.timer:before {
+    content: "";
+    width: 30rem;
+    height: 30rem;
+    border: 20px solid red;
+    border-radius: 50%;
+    left: -1.25rem;
+    top: -1.25rem;
+    position: absolute;
+    box-shadow: 0 0 0 4px rgba(0, 0, 0, 0.1),
+    inset 0 0 0 3px red,
+    inset 0 0 10px red,
+    0 0 10px rgba(0, 0, 0, 0.2);
+}
+*/
