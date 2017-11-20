@@ -34,11 +34,11 @@ body {
     background: none;
     border: none;
     cursor: pointer;
+    outline: none;
 }
 
 .timer button i {
     color: #FCE38A;
-
 }
 
 .end__button {

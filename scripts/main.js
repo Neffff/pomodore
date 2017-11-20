@@ -2,38 +2,30 @@
 const pomodoroController = (function () {
     let sound = document.getElementById('alarm__sound');
     let interval;
-
-    let startTimer = ((duration, display) => {
+    let isStopped = false;
+    let startTimer = (duration, display) => {
         let timer = duration,
-            minutes, seconds;
+            minutes,
+            seconds;
         clearInterval(interval);
         interval = setInterval(() => {
+
             minutes = parseInt(timer / 60, 10);
             seconds = parseInt(timer % 60, 10);
-
-            minutes = minutes < 10 ? "0" + minutes : minutes;
-            seconds = seconds < 10 ? "0" + seconds : seconds;
-
-            console.log(timer);
+            minutes = minutes < 10 ? '0' + minutes : minutes;
+            seconds = seconds < 10 ? '0' + seconds : seconds;
 
             if (timer > 0) {
-                display.textContent = minutes + ":" + seconds;
-
+                display.textContent = minutes + ':' + seconds;
             } else if (timer === 0) {
-                console.log(timer);
                 timer = 0;
                 sound.play();
-                display.textContent = "00:00";
+                display.textContent = '00:00';
                 clearInterval(interval);
             }
             --timer;
-
-
         }, 1000);
-    });
-
-
-
+    };
 
     let bar = new ProgressBar.Circle('#container', {
         strokeWidth: 2,
@@ -50,109 +42,80 @@ const pomodoroController = (function () {
             let twentyFive, display;
             twentyFive = 1 * 10;
             bar.set(0);
-            display = document.querySelector('.time__left');
+            isStopped = false;
+            display = UIController.DOM.timerLeft;
             startTimer(twentyFive, display);
             bar.animate(1.0); // Number from 0.0 to 1.0
+            UIController.addSubject();
         },
-        abortTimer: function (e) {
-            console.log(e);
+        abortTimer: function () {
             clearInterval(interval);
-            display = document.querySelector('.time__left');
-            display.textContent = "00:00";
+            display = UIController.DOM.timerLeft;
+            display.textContent = '00:00';
             bar.set(0);
         },
         pauseTimer: function () {
-
-            clearInterval(interval);
-            bar.stop();
+            display = UIController.DOM.timerLeft;
+            let val = bar.value();
+            if (isStopped === false) {
+                clearInterval(interval);
+                bar.stop();
+                UIController.DOM.pauseBtn.childNodes[0].classList.toggle('fa-pause');
+                UIController.DOM.pauseBtn.childNodes[0].classList.toggle('fa-play');
+                isStopped = true;
+            } else if (isStopped === true) {
+                startTimer(interval, display);
+                bar.set(val);
+                bar.animate(1.0);
+                UIController.DOM.pauseBtn.childNodes[0].classList.toggle('fa-pause');
+                UIController.DOM.pauseBtn.childNodes[0].classList.toggle('fa-play');
+                isStopped = false;
+            }
         }
     };
 })();
 
 // UI CONTROLLER
 var UIController = (function () {
-    var DOMstrings = {
-        timerBtn: '.timer__button',
-        inputDescription: '.input__description',
-        inputValue: '.input__time',
-        endBtn: '.end__button',
-        timerSubject: '.timer__subject',
-        timerLeft: '.time__left',
-        pauseBtn: '.pause__button',
-        counterDisplay: '.counter__display'
+    var DOM = {
+        timerBtn: document.querySelector('.timer__button'),
+        inputDescription: document.querySelector('.input__description'),
+        inputValue: document.querySelector('.input__time'),
+        endBtn: document.querySelector('.end__button'),
+        timerSubject: document.querySelector('.timer__subject'),
+        timerLeft: document.querySelector('.time__left'),
+        pauseBtn: document.querySelector('.pause__button'),
+        counterDisplay: document.querySelector('.counter__display')
     };
     return {
-        getElements: function () {
-            return {
-                description: document.querySelector(DOMstrings.inputDescription).value,
-                value: document.querySelector(DOMstrings.inputValue).value,
-                timeBtn: document.querySelector(DOMstrings.timerBtn),
-                endindBtn: document.querySelector(DOMstrings.endBtn)
-            };
+        elements: {
+            description: DOM.inputDescription.value,
+            value: DOM.inputValue.value,
+            timeBtn: DOM.timerBtn,
+            endindBtn: DOM.endBtn
         },
-        startTimer: function () {
-            let twentyFiveMin;
-            twentyFiveMin = document.querySelector(DOMstrings.timerBtn);
-            twentyFiveMin.addEventListener('click', pomodoroController.startTwentyFive);
-            pomodoroController.startTwentyFive();
-            UIController.showSubject();
+        addSubject: function () {
+            DOM.timerSubject.textContent = DOM.inputDescription.value;
         },
-        abortTimer: function () {
-            let abortBtn;
-            abortBtn = document.querySelector(DOMstrings.endBtn);
-            abortBtn.addEventListener('click', pomodoroController.abortTimer);
-
-        },
-        pauseTimer: function () {
-            let pauseButton;
-            pauseButton = document.querySelector(DOMstrings.pauseBtn);
-            pauseButton.addEventListener('click', pomodoroController.pauseTimer);
-        },
-        showSubject: function () {
-            let subject, inputSubject;
-            subject = document.querySelector(DOMstrings.timerSubject);
-            inputSubject = document.querySelector(DOMstrings.inputDescription);
-            subject.textContent = inputSubject.value;
-        },
-        getDOMstrings: function () {
-            return DOMstrings;
-        }
-    }
+        DOM
+    };
 })();
 
 // GLOBAL APP CONTROLLER
 var controller = (function (pomoCtrl, UICtrl) {
     var setupEventListeners = function () {
-        var DOM = UICtrl.getDOMstrings();
-
-        document.querySelector(DOM.timerBtn).addEventListener('click', ctrlStartTwentyFive);
-        document.querySelector(DOM.endBtn).addEventListener('click', ctrlAbortTimer);
-        document.querySelector(DOM.pauseBtn).addEventListener('click', ctrlPauseTimer);
-        console.log(DOM.endBtn);
+        var DOM = UICtrl.DOM;
+        DOM.timerBtn.addEventListener('click', pomoCtrl.startTwentyFive);
+        DOM.endBtn.addEventListener('click', pomoCtrl.abortTimer);
+        DOM.pauseBtn.addEventListener('click', pomoCtrl.pauseTimer);
     };
 
-    let ctrlStartTwentyFive = function () {
-        // 1. calculate
-        //pomoCtrl.startPomodore();
-        // 2. get btn id and add action on click
-        UICtrl.startTimer();
-    }
-
-    let ctrlAbortTimer = function () {
-        UICtrl.abortTimer();
-
-    }
-    let ctrlPauseTimer = function () {
-        UICtrl.pauseTimer();
-    }
-    let ctrlshowSubject = function () {
-        UICtrl.showSubject();
-    }
     return {
         init: function () {
             console.log('Application has started.');
             setupEventListeners();
         }
-    }
+    };
 })(pomodoroController, UIController);
+
 controller.init();
