@@ -3,10 +3,11 @@ const pomodoroController = (function () {
     let sound = document.getElementById('alarm__sound');
     let interval;
     let isStopped = false;
+    let timer,
+        minutes,
+        seconds;
     let startTimer = (duration, display) => {
-        let timer = duration,
-            minutes,
-            seconds;
+        timer = duration;
         clearInterval(interval);
         interval = setInterval(() => {
 
@@ -30,7 +31,7 @@ const pomodoroController = (function () {
     let bar = new ProgressBar.Circle('#container', {
         strokeWidth: 2,
         easing: 'linear',
-        duration: 1000 * 11,
+        duration: 1000 * 61 * 25,
         color: '#FFEA82',
         trailColor: '#eee',
         trailWidth: 1,
@@ -40,7 +41,7 @@ const pomodoroController = (function () {
     return {
         startTwentyFive: function () {
             let twentyFive, display;
-            twentyFive = 1 * 10;
+            twentyFive = 25 * 60;
             bar.set(0);
             isStopped = false;
             display = UIController.DOM.timerLeft;
@@ -64,9 +65,12 @@ const pomodoroController = (function () {
                 UIController.DOM.pauseBtn.childNodes[0].classList.toggle('fa-play');
                 isStopped = true;
             } else if (isStopped === true) {
-                startTimer(interval, display);
-                bar.set(val);
-                bar.animate(1.0);
+                startTimer(timer, display);
+                console.log(timer);
+                console.log(val);
+                bar.animate(1.0, {
+                    duration: (timer * 1000 + 1000)
+                });
                 UIController.DOM.pauseBtn.childNodes[0].classList.toggle('fa-pause');
                 UIController.DOM.pauseBtn.childNodes[0].classList.toggle('fa-play');
                 isStopped = false;
@@ -80,7 +84,6 @@ var UIController = (function () {
     var DOM = {
         timerBtn: document.querySelector('.timer__button'),
         inputDescription: document.querySelector('.input__description'),
-        inputValue: document.querySelector('.input__time'),
         endBtn: document.querySelector('.end__button'),
         timerSubject: document.querySelector('.timer__subject'),
         timerLeft: document.querySelector('.time__left'),
@@ -90,7 +93,6 @@ var UIController = (function () {
     return {
         elements: {
             description: DOM.inputDescription.value,
-            value: DOM.inputValue.value,
             timeBtn: DOM.timerBtn,
             endindBtn: DOM.endBtn
         },
